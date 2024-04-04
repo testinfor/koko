@@ -1,1 +1,20 @@
-# Empty CSS file for your own CSS
+.card-link {
+    font-size: 3vw;
+}
+
+@media (max-width: 768px) {
+    .card-link {
+        font-size: 6vw;
+    }
+}
+
+.nav-link {
+    font-size: 3vw;
+}
+
+@media (max-width: 768px) {
+    .nav-link {
+        font-size: 5vw;
+    }
+}
+
