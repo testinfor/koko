@@ -18,3 +18,7 @@
     }
 }
 
+.row {
+    padding-top: 20px;
+    padding-bottom: calc(10vh * 3);
+}
