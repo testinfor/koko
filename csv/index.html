@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <title>KOKO CSV CONVERTER (Web)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- PapaParse: 견고한 CSV 파서 (스트리밍/인용부호/구분자 자동감지) -->
+  <script src="https://unpkg.com/papaparse@5.4.1/papaparse.min.js" defer></script>
+  <style>
+    :root { --bg:#0f172a; --fg:#e2e8f0; --muted:#94a3b8; --accent:#22d3ee; --ring:#22d3ee55; }
+    html,body { height: 100%; margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; background:var(--bg); color:var(--fg); }
+    .wrap { max-width: 880px; margin: 0 auto; padding: 32px 16px 64px; }
+    h1 { font-size: 22px; font-weight: 700; margin: 0 0 12px; letter-spacing: .3px; }
+    p { color: var(--muted); margin: 6px 0 20px; }
+    .panel { display:flex; gap:16px; flex-wrap:wrap; align-items: center; }
+    .drop {
+      flex:1 1 520px; min-height: 220px; border: 2px dashed #334155; border-radius: 12px;
+      display:grid; place-items:center; text-align:center; padding: 18px; transition: .15s ease;
+      background: #0b1220;
+    }
+    .drop.drag { border-color: var(--accent); box-shadow: 0 0 0 6px var(--ring); transform: translateY(-1px); }
+    .btn { appearance: none; border:1px solid #334155; background:#0b1220; color:var(--fg);
+      padding:10px 14px; border-radius:10px; cursor:pointer; font-weight:600; }
+    .btn:hover { border-color:#475569; }
+    .row { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+    select { background:#0b1220; border:1px solid #334155; color:var(--fg); border-radius:10px; padding:10px 12px; }
+    .log {
+      margin-top: 16px; padding: 12px; background: #0b1220; border:1px solid #334155; border-radius: 10px;
+      max-height: 240px; overflow:auto; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px;
+    }
+    a.inline { color: var(--accent); text-decoration: none; }
+    .hint { font-size: 12px; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>KOKO CSV CONVERTER (Web)</h1>
+    <p>CSV 파일을 드래그앤드롭하면 <code>settings.json</code> 규칙에 따라 여러 CSV로 분할해 즉시 다운로드한다.</p>
+
+    <div class="panel">
+      <div id="drop" class="drop">
+        <div>
+          <div style="font-size:18px;font-weight:700;margin-bottom:6px">여기에 CSV 파일을 드롭</div>
+          <div class="hint">또는 버튼으로 선택</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;min-width:260px">
+        <div class="row">
+          <button id="pick" class="btn">CSV 파일 선택</button>
+          <input id="file" type="file" accept=".csv,text/csv" hidden multiple />
+        </div>
+        <div class="row">
+          <label class="hint">입력 인코딩</label>
+          <select id="enc">
+            <option value="utf-8" selected>UTF-8</option>
+            <option value="shift_jis">Shift_JIS (MS932)</option>
+            <option value="euc-jp">EUC-JP</option>
+          </select>
+        </div>
+        <div class="row">
+          <label class="hint">구분자 자동감지</label>
+          <select id="delim">
+            <option value="auto" selected>자동</option>
+            <option value=",">쉼표 (,)</option>
+            <option value=";">세미콜론 (;)</option>
+            <option value="	">탭 (\\t)</option>
+            <option value="|">파이프 (|)</option>
+          </select>
+        </div>
+        <div class="hint">설정 파일: <code><a class="inline" href="settings.json" target="_blank" rel="noopener">settings.json</a></code> (리포 루트)</div>
+      </div>
+    </div>
+
+    <div id="log" class="log" aria-live="polite"></div>
+  </div>
+
+<script>
+/** ---------- 작은 유틸들 ---------- */
+
+const logBox = document.getElementById('log');
+function log(...args) {
+  const s = args.map(x => typeof x === 'string' ? x : JSON.stringify(x)).join(' ');
+  const line = document.createElement('div');
+  line.textContent = s;
+  logBox.appendChild(line);
+  logBox.scrollTop = logBox.scrollHeight;
+}
+
+function fileBaseName(name) {
+  const low = name.toLowerCase();
+  const i = low.lastIndexOf('.csv');
+  return i >= 0 ? name.substring(0, i) : name;
+}
+
+// 자바와 동일한 헤더 키 정규화: trim + 선두 BOM 제거 + NBSP→space
+function normalizeHeaderKey(s) {
+  if (s == null) return s;
+  let t = String(s).trim();
+  if (t.length && t.charCodeAt(0) === 0xFEFF) t = t.substring(1);
+  t = t.replace(/\u00A0/g, ' ');
+  return t;
+}
+
+// CSV 필드 이스케이프 (RFC4180-ish)
+function csvEscape(v) {
+  const s = v == null ? '' : String(v).trim();
+  if (/[",\r\n]/.test(s)) return '"' + s.replace(/"/g, '""') + '"';
+  return s;
+}
+
+// 다운로드 트리거
+function downloadText(filename, text) {
+  const blob = new Blob([text], { type: 'text/csv;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = Object.assign(document.createElement('a'), { href: url, download: filename });
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 0);
+}
+
+/** ---------- settings.json 로드 ---------- */
+
+let SETTINGS = [];
+async function loadSettings() {
+  const res = await fetch('settings.json', { cache: 'no-cache' });
+  if (!res.ok) throw new Error(`settings.json load failed: ${res.status}`);
+  const js = await res.json();
+  // 기대 스키마: [{ "prefix": "xxx", "column": ["A","B",...] }, ...]
+  SETTINGS = Array.isArray(js) ? js : (js && js.conversions) || [];
+  if (!Array.isArray(SETTINGS)) throw new Error('Invalid settings.json');
+  log(`settings loaded (${SETTINGS.length})`);
+}
+
+/** ---------- 변환 엔진 (스트리밍) ---------- */
+
+class ActiveConv {
+  constructor(prefix, indexes, headerNames, outName) {
+    this.prefix = prefix;            // 파일 접두사
+    this.indexes = indexes;          // 추출할 컬럼 인덱스 배열
+    this.headerNames = headerNames;  // 출력 헤더명(설정 그대로)
+    this.outName = outName;          // 출력 파일명
+    // BOM + 헤더 준비 (CRLF 고정)
+    this.parts = ['\uFEFF' + headerNames.map(csvEscape).join(',') + '\r\n'];
+    this.rows = 0;
+  }
+  pushRow(srcRow) {
+    const row = this.indexes.map(i => {
+      const v = i < srcRow.length ? srcRow[i] : '';
+      return csvEscape(v);
+    }).join(',');
+    this.parts.push(row + '\r\n');
+    this.rows++;
+  }
+  finalize() {
+    return this.parts.join('');
+  }
+}
+
+/**
+ * 파일 하나 처리:
+ *  - 인코딩: TextDecoder(선택값)
+ *  - 구분자: PapaParse 자동감지 또는 수동 지정
+ *  - 첫 행을 헤더로 보고 정규화 후, settings 규칙과 매칭
+ *  - 유효 규칙만 활성화해서 모든 레코드를 동시에 쓰기
+ */
+async function processOneFile(file, { encoding = 'utf-8', delimiter = 'auto' } = {}) {
+  log(`----- ${file.name} -----`);
+  const base = fileBaseName(file.name);
+
+  // 파일 바이트 → 문자열 (선택 인코딩)
+  const buf = await file.arrayBuffer();
+  const decoder = new TextDecoder(encoding);
+  const text = decoder.decode(buf);
+
+  return new Promise((resolve, reject) => {
+    let header = null;                 // 원본 헤더 배열
+    let normHeaderMap = new Map();     // 정규화된헤더 -> 최초 인덱스
+    let actives = [];                  // 활성 변환 목록
+
+    Papa.parse(text, {
+      worker: true,
+      skipEmptyLines: 'greedy',
+      delimiter: delimiter === 'auto' ? '' : delimiter,
+      // 헤더 없이 배열 행으로 받는다: 첫 행 = 헤더
+      header: false,
+      step: (results, parser) => {
+        const row = results.data;
+
+        // 헤더 아직이면 준비
+        if (header === null) {
+          header = row.map(c => c); // 원본 보존
+          // 정규화된 키 -> 최초 인덱스 (중복 시 첫 번째만)
+          header.forEach((h, idx) => {
+            const k = normalizeHeaderKey(h);
+            if (!normHeaderMap.has(k)) normHeaderMap.set(k, idx);
+          });
+          log('normalized header:', Object.fromEntries(normHeaderMap));
+
+          // settings 기반으로 활성 변환 구성
+          actives = [];
+          for (const c of SETTINGS) {
+            if (!c || !c.prefix || !Array.isArray(c.column)) continue;
+            const idxs = [];
+            const names = [];
+            for (const col of c.column) {
+              const idx = normHeaderMap.get(normalizeHeaderKey(col));
+              if (Number.isInteger(idx)) { idxs.push(idx); names.push(col); }
+            }
+            if (idxs.length > 0) {
+              const outName = `${base}_${c.prefix}.csv`;
+              actives.push(new ActiveConv(c.prefix, idxs, names, outName));
+            }
+          }
+          if (actives.length === 0) {
+            parser.abort();
+            reject(new Error('No active conversions: settings에 해당 컬럼이 없음'));
+          }
+          return; // 다음 행부터 데이터
+        }
+
+        // 데이터 행 → 각 ActiveConv에 동시 기록
+        for (const ac of actives) ac.pushRow(row);
+      },
+      complete: () => {
+        // 각각 다운로드
+        for (const ac of actives) {
+          const content = ac.finalize();
+          downloadText(ac.outName, content);
+          log(`Wrote: ${ac.outName} (${ac.rows} rows)`);
+        }
+        resolve();
+      },
+      error: (err) => reject(err)
+    });
+  });
+}
+
+/** ---------- UI 바인딩 ---------- */
+
+(async function init() {
+  try { await loadSettings(); } catch (e) { log(String(e)); }
+
+  const drop = document.getElementById('drop');
+  const input = document.getElementById('file');
+  const pick = document.getElementById('pick');
+  const encSel = document.getElementById('enc');
+  const delimSel = document.getElementById('delim');
+
+  ['dragenter','dragover'].forEach(t => drop.addEventListener(t, e => {
+    e.preventDefault(); e.stopPropagation(); drop.classList.add('drag');
+  }));
+  ['dragleave','drop'].forEach(t => drop.addEventListener(t, e => {
+    e.preventDefault(); e.stopPropagation(); drop.classList.remove('drag');
+  }));
+
+  drop.addEventListener('drop', async e => {
+    const files = [...(e.dataTransfer?.files || [])].filter(f => f.type.includes('csv') || f.name.toLowerCase().endsWith('.csv'));
+    if (files.length === 0) { log('CSV가 아님 또는 파일이 없음'); return; }
+    for (const f of files) {
+      try {
+        await processOneFile(f, { encoding: encSel.value, delimiter: delimSel.value });
+        log('done');
+      } catch (err) {
+        log('error:', err.message || String(err));
+      }
+    }
+  });
+
+  pick.addEventListener('click', () => input.click());
+  input.addEventListener('change', async () => {
+    const files = [...input.files];
+    input.value = ''; // 같은 파일 재선택 가능
+    for (const f of files) {
+      try {
+        await processOneFile(f, { encoding: encSel.value, delimiter: delimSel.value });
+        log('done');
+      } catch (err) {
+        log('error:', err.message || String(err));
+      }
+    }
+  });
+})();
+</script>
+</body>
+</html>
