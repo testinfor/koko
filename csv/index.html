@@ -1,20 +1,20 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ja">
 <head>
   <meta charset="utf-8" />
-  <title>KOKO CSV CONVERTER (Web)</title>
+  <title>KOKO CSV コンバーター（Web）</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- PapaParse: 견고한 CSV 파서 (스트리밍/인용부호/구분자 자동감지) -->
+  <!-- PapaParse: CSVパーサ（ストリーミング対応） -->
   <script src="https://unpkg.com/papaparse@5.4.1/papaparse.min.js" defer></script>
   <style>
     :root { --bg:#0f172a; --fg:#e2e8f0; --muted:#94a3b8; --accent:#22d3ee; --ring:#22d3ee55; }
-    html,body { height: 100%; margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; background:var(--bg); color:var(--fg); }
-    .wrap { max-width: 880px; margin: 0 auto; padding: 32px 16px 64px; }
+    html,body { height: 100%; margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif; background:var(--bg); color:var(--fg); }
+    .wrap { max-width: 920px; margin: 0 auto; padding: 32px 16px 64px; }
     h1 { font-size: 22px; font-weight: 700; margin: 0 0 12px; letter-spacing: .3px; }
     p { color: var(--muted); margin: 6px 0 20px; }
     .panel { display:flex; gap:16px; flex-wrap:wrap; align-items: center; }
     .drop {
-      flex:1 1 520px; min-height: 220px; border: 2px dashed #334155; border-radius: 12px;
+      flex:1 1 540px; min-height: 220px; border: 2px dashed #334155; border-radius: 12px;
       display:grid; place-items:center; text-align:center; padding: 18px; transition: .15s ease;
       background: #0b1220;
     }
@@ -26,48 +26,53 @@
     select { background:#0b1220; border:1px solid #334155; color:var(--fg); border-radius:10px; padding:10px 12px; }
     .log {
       margin-top: 16px; padding: 12px; background: #0b1220; border:1px solid #334155; border-radius: 10px;
-      max-height: 240px; overflow:auto; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px;
+      max-height: 260px; overflow:auto; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px;
     }
     a.inline { color: var(--accent); text-decoration: none; }
     .hint { font-size: 12px; color: var(--muted); }
+    code { color:#cbd5e1; }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <h1>KOKO CSV CONVERTER (Web)</h1>
-    <p>CSV 파일을 드래그앤드롭하면 <code>settings.json</code> 규칙에 따라 여러 CSV로 분할해 즉시 다운로드한다.</p>
+    <h1>KOKO CSV コンバーター（Web）</h1>
+    <p>CSV をドロップ／選択すると、<code>settings.json</code> のルールに従って複数の CSV に分割し、すぐにダウンロードします。<br></p>
 
     <div class="panel">
-      <div id="drop" class="drop">
+      <div id="drop" class="drop" role="region" aria-label="CSVドロップ領域">
         <div>
-          <div style="font-size:18px;font-weight:700;margin-bottom:6px">여기에 CSV 파일을 드롭</div>
-          <div class="hint">또는 버튼으로 선택</div>
+          <div style="font-size:18px;font-weight:700;margin-bottom:6px">ここに CSV ファイルをドロップ</div>
+          <div class="hint">または右側のボタンで選択</div>
         </div>
       </div>
-      <div style="display:flex;flex-direction:column;gap:12px;min-width:260px">
+
+      <div style="display:flex;flex-direction:column;gap:12px;min-width:280px">
         <div class="row">
-          <button id="pick" class="btn">CSV 파일 선택</button>
+          <button id="pick" class="btn" type="button">CSV ファイルを選択</button>
           <input id="file" type="file" accept=".csv,text/csv" hidden multiple />
         </div>
+
         <div class="row">
-          <label class="hint">입력 인코딩</label>
-          <select id="enc">
-            <option value="utf-8" selected>UTF-8</option>
-            <option value="shift_jis">Shift_JIS (MS932)</option>
+          <label class="hint" for="enc">入力エンコーディング</label>
+          <select id="enc" aria-label="入力エンコーディング">
+            <option value="utf-8" selected>UTF-8（既定）</option>
+            <option value="shift_jis">Shift_JIS（MS932）</option>
             <option value="euc-jp">EUC-JP</option>
           </select>
         </div>
+
         <div class="row">
-          <label class="hint">구분자 자동감지</label>
-          <select id="delim">
-            <option value="auto" selected>자동</option>
-            <option value=",">쉼표 (,)</option>
-            <option value=";">세미콜론 (;)</option>
-            <option value="	">탭 (\\t)</option>
-            <option value="|">파이프 (|)</option>
+          <label class="hint" for="delim">区切り文字</label>
+          <select id="delim" aria-label="区切り文字">
+            <option value="auto" selected>自動検出</option>
+            <option value=",">カンマ (,)</option>
+            <option value=";">セミコロン (;)</option>
+            <option value="	">タブ (\\t)</option>
+            <option value="|">パイプ (|)</option>
           </select>
         </div>
-        <div class="hint">설정 파일: <code><a class="inline" href="settings.json" target="_blank" rel="noopener">settings.json</a></code> (리포 루트)</div>
+
+        <div class="hint">設定ファイル：<code><a class="inline" href="settings.json" target="_blank" rel="noopener">settings.json</a></code>（リポジトリ直下）</div>
       </div>
     </div>
 
@@ -75,10 +80,10 @@
   </div>
 
 <script>
-/** ---------- 작은 유틸들 ---------- */
+/* ======================= 小さなユーティリティ ======================= */
 
 const logBox = document.getElementById('log');
-function log(...args) {
+function logLine(...args) {
   const s = args.map(x => typeof x === 'string' ? x : JSON.stringify(x)).join(' ');
   const line = document.createElement('div');
   line.textContent = s;
@@ -92,7 +97,7 @@ function fileBaseName(name) {
   return i >= 0 ? name.substring(0, i) : name;
 }
 
-// 자바와 동일한 헤더 키 정규화: trim + 선두 BOM 제거 + NBSP→space
+// ヘッダーキーの正規化：trim + 先頭BOM除去 + NBSP→space
 function normalizeHeaderKey(s) {
   if (s == null) return s;
   let t = String(s).trim();
@@ -101,14 +106,14 @@ function normalizeHeaderKey(s) {
   return t;
 }
 
-// CSV 필드 이스케이프 (RFC4180-ish)
+// CSVフィールドのエスケープ（RFC4180系）
 function csvEscape(v) {
   const s = v == null ? '' : String(v).trim();
   if (/[",\r\n]/.test(s)) return '"' + s.replace(/"/g, '""') + '"';
   return s;
 }
 
-// 다운로드 트리거
+// ダウンロード開始
 function downloadText(filename, text) {
   const blob = new Blob([text], { type: 'text/csv;charset=utf-8' });
   const url = URL.createObjectURL(blob);
@@ -117,87 +122,122 @@ function downloadText(filename, text) {
   setTimeout(() => URL.revokeObjectURL(url), 0);
 }
 
-/** ---------- settings.json 로드 ---------- */
-
-let SETTINGS = [];
-async function loadSettings() {
-  const res = await fetch('settings.json', { cache: 'no-cache' });
-  if (!res.ok) throw new Error(`settings.json load failed: ${res.status}`);
-  const js = await res.json();
-  // 기대 스키마: [{ "prefix": "xxx", "column": ["A","B",...] }, ...]
-  SETTINGS = Array.isArray(js) ? js : (js && js.conversions) || [];
-  if (!Array.isArray(SETTINGS)) throw new Error('Invalid settings.json');
-  log(`settings loaded (${SETTINGS.length})`);
+// 「通常文字列の全置換」（正規表現ではなく素直な split/join）
+function replaceAllPlain(s, before, after) {
+  if (!before) return s;
+  return String(s).split(before).join(after);
 }
 
-/** ---------- 변환 엔진 (스트리밍) ---------- */
+/* ======================= settings.json ローダ ======================= */
+
+let FILESPLIT = [];    // [{ prefix, column: [...] }, ...]
+let RENAME_RULES = []; // [{ column:[...], before, after }, ...]
+
+async function loadSettings() {
+  const res = await fetch('settings.json', { cache: 'no-cache' });
+  if (!res.ok) throw new Error(`settings.json の読み込みに失敗しました: ${res.status}`);
+  const js = await res.json();
+
+  if (Array.isArray(js)) {
+    // 旧スキーマ：配列＝filesplit
+    FILESPLIT = js;
+    RENAME_RULES = [];
+  } else {
+    FILESPLIT = Array.isArray(js?.filesplit) ? js.filesplit : [];
+    RENAME_RULES = Array.isArray(js?.rename) ? js.rename : [];
+  }
+  if (!Array.isArray(FILESPLIT)) throw new Error('settings: filesplit が不正です');
+  if (!Array.isArray(RENAME_RULES)) throw new Error('settings: rename が不正です');
+
+  logLine(`設定を読み込みました：filesplit=${FILESPLIT.length}, rename=${RENAME_RULES.length}`);
+}
+
+/* ======================= 変換エンジン ======================= */
 
 class ActiveConv {
-  constructor(prefix, indexes, headerNames, outName) {
-    this.prefix = prefix;            // 파일 접두사
-    this.indexes = indexes;          // 추출할 컬럼 인덱스 배열
-    this.headerNames = headerNames;  // 출력 헤더명(설정 그대로)
-    this.outName = outName;          // 출력 파일명
-    // BOM + 헤더 준비 (CRLF 고정)
+  constructor(prefix, indexes, headerNames, outName, transformsByIndex) {
+    this.prefix = prefix;
+    this.indexes = indexes;
+    this.headerNames = headerNames; // 出力ヘッダー名（設定そのまま）
+    this.outName = outName;
+    this.transformsByIndex = transformsByIndex; // Map<number, Array<{before, after}>>
+    // 先頭に BOM を付与し、CRLF 固定で Excel 互換
     this.parts = ['\uFEFF' + headerNames.map(csvEscape).join(',') + '\r\n'];
     this.rows = 0;
   }
   pushRow(srcRow) {
     const row = this.indexes.map(i => {
-      const v = i < srcRow.length ? srcRow[i] : '';
-      return csvEscape(v);
+      let v = i < srcRow.length ? srcRow[i] : '';
+      const ts = this.transformsByIndex.get(i);
+      if (ts && ts.length) {
+        for (const t of ts) v = replaceAllPlain(v, t.before, t.after);
+      }
+      return csvEscape(String(v).trim());
     }).join(',');
     this.parts.push(row + '\r\n');
     this.rows++;
   }
-  finalize() {
-    return this.parts.join('');
-  }
+  finalize() { return this.parts.join(''); }
 }
 
 /**
- * 파일 하나 처리:
- *  - 인코딩: TextDecoder(선택값)
- *  - 구분자: PapaParse 자동감지 또는 수동 지정
- *  - 첫 행을 헤더로 보고 정규화 후, settings 규칙과 매칭
- *  - 유효 규칙만 활성화해서 모든 레코드를 동시에 쓰기
+ * ファイル1つを処理：
+ *  - TextDecoder で文字コードを適用
+ *  - 区切り文字は自動検出（必要なら手動指定）
+ *  - 先頭行をヘッダーとして扱い、正規化キーでマッチング
+ *  - rename ルール（列ごとの文字列置換）を適用した上で filesplit に従って同時書き出し
  */
 async function processOneFile(file, { encoding = 'utf-8', delimiter = 'auto' } = {}) {
-  log(`----- ${file.name} -----`);
+  logLine(`----- ${file.name} -----`);
   const base = fileBaseName(file.name);
 
-  // 파일 바이트 → 문자열 (선택 인코딩)
+  // 入力を選択エンコーディングで文字列化
   const buf = await file.arrayBuffer();
   const decoder = new TextDecoder(encoding);
   const text = decoder.decode(buf);
 
   return new Promise((resolve, reject) => {
-    let header = null;                 // 원본 헤더 배열
-    let normHeaderMap = new Map();     // 정규화된헤더 -> 최초 인덱스
-    let actives = [];                  // 활성 변환 목록
+    let header = null;                   // 元ヘッダー配列
+    let normHeaderMap = new Map();       // 正規化キー -> 最初のインデックス
+    let actives = [];                    // 有効な変換ジョブ
 
     Papa.parse(text, {
       worker: true,
       skipEmptyLines: 'greedy',
       delimiter: delimiter === 'auto' ? '' : delimiter,
-      // 헤더 없이 배열 행으로 받는다: 첫 행 = 헤더
-      header: false,
+      header: false, // 配列として受け取り、先頭行を自前でヘッダー扱い
       step: (results, parser) => {
         const row = results.data;
 
-        // 헤더 아직이면 준비
+        // ヘッダー初期化
         if (header === null) {
-          header = row.map(c => c); // 원본 보존
-          // 정규화된 키 -> 최초 인덱스 (중복 시 첫 번째만)
+          header = row.map(c => c);
           header.forEach((h, idx) => {
             const k = normalizeHeaderKey(h);
-            if (!normHeaderMap.has(k)) normHeaderMap.set(k, idx);
+            if (!normHeaderMap.has(k)) normHeaderMap.set(k, idx); // 重複は先勝ち
           });
-          log('normalized header:', Object.fromEntries(normHeaderMap));
+          logLine('正規化済みヘッダー:', Object.fromEntries(normHeaderMap));
 
-          // settings 기반으로 활성 변환 구성
+          // rename ルールを「列インデックス→置換リスト」に展開
+          const transformsByIndex = new Map();
+          for (const r of RENAME_RULES) {
+            if (!r || !Array.isArray(r.column)) continue;
+            const before = 'before' in r ? String(r.before) : undefined;
+            const after  = 'after'  in r ? String(r.after)  : undefined;
+            if (typeof before !== 'string' || typeof after !== 'string' || before === '') continue;
+
+            for (const col of r.column) {
+              const idx = normHeaderMap.get(normalizeHeaderKey(col));
+              if (Number.isInteger(idx)) {
+                if (!transformsByIndex.has(idx)) transformsByIndex.set(idx, []);
+                transformsByIndex.get(idx).push({ before, after }); // 設定順に適用
+              }
+            }
+          }
+
+          // filesplit から出力ジョブを構築
           actives = [];
-          for (const c of SETTINGS) {
+          for (const c of FILESPLIT) {
             if (!c || !c.prefix || !Array.isArray(c.column)) continue;
             const idxs = [];
             const names = [];
@@ -207,25 +247,25 @@ async function processOneFile(file, { encoding = 'utf-8', delimiter = 'auto' } =
             }
             if (idxs.length > 0) {
               const outName = `${base}_${c.prefix}.csv`;
-              actives.push(new ActiveConv(c.prefix, idxs, names, outName));
+              actives.push(new ActiveConv(c.prefix, idxs, names, outName, transformsByIndex));
             }
           }
+
           if (actives.length === 0) {
             parser.abort();
-            reject(new Error('No active conversions: settings에 해당 컬럼이 없음'));
+            reject(new Error('有効な変換ルールが見つかりません（settings の列名と一致するものがありません）'));
           }
-          return; // 다음 행부터 데이터
+          return; // 次行からデータ
         }
 
-        // 데이터 행 → 각 ActiveConv에 동시 기록
+        // データ行：全ジョブに同時書き込み（rename 置換は ActiveConv 内で実施）
         for (const ac of actives) ac.pushRow(row);
       },
       complete: () => {
-        // 각각 다운로드
         for (const ac of actives) {
           const content = ac.finalize();
           downloadText(ac.outName, content);
-          log(`Wrote: ${ac.outName} (${ac.rows} rows)`);
+          logLine(`出力: ${ac.outName}（${ac.rows} 行）`);
         }
         resolve();
       },
@@ -234,10 +274,11 @@ async function processOneFile(file, { encoding = 'utf-8', delimiter = 'auto' } =
   });
 }
 
-/** ---------- UI 바인딩 ---------- */
+/* ======================= UI バインド ======================= */
 
 (async function init() {
-  try { await loadSettings(); } catch (e) { log(String(e)); }
+  try { await loadSettings(); }
+  catch (e) { logLine(String(e)); }
 
   const drop = document.getElementById('drop');
   const input = document.getElementById('file');
@@ -253,14 +294,15 @@ async function processOneFile(file, { encoding = 'utf-8', delimiter = 'auto' } =
   }));
 
   drop.addEventListener('drop', async e => {
-    const files = [...(e.dataTransfer?.files || [])].filter(f => f.type.includes('csv') || f.name.toLowerCase().endsWith('.csv'));
-    if (files.length === 0) { log('CSV가 아님 또는 파일이 없음'); return; }
+    const files = [...(e.dataTransfer?.files || [])]
+      .filter(f => f.type.includes('csv') || f.name.toLowerCase().endsWith('.csv'));
+    if (files.length === 0) { logLine('CSV ファイルが見つかりません'); return; }
     for (const f of files) {
       try {
         await processOneFile(f, { encoding: encSel.value, delimiter: delimSel.value });
-        log('done');
+        logLine('完了');
       } catch (err) {
-        log('error:', err.message || String(err));
+        logLine('エラー:', err.message || String(err));
       }
     }
   });
@@ -268,13 +310,13 @@ async function processOneFile(file, { encoding = 'utf-8', delimiter = 'auto' } =
   pick.addEventListener('click', () => input.click());
   input.addEventListener('change', async () => {
     const files = [...input.files];
-    input.value = ''; // 같은 파일 재선택 가능
+    input.value = ''; // 同じファイルを再選択可能に
     for (const f of files) {
       try {
         await processOneFile(f, { encoding: encSel.value, delimiter: delimSel.value });
-        log('done');
+        logLine('完了');
       } catch (err) {
-        log('error:', err.message || String(err));
+        logLine('エラー:', err.message || String(err));
       }
     }
   });
