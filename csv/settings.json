@@ -1,0 +1,33 @@
+{
+  "filesplit": [
+    {
+      "prefix": "conv1",
+      "column": ["チェックイン日", "ゲスト名", "ゲスト名フリガナ"]
+    },
+    {
+      "prefix": "conv2",
+      "column": ["宿泊人数", "泊数", "大人人数"]
+    },
+    {
+      "prefix": "conv3",
+      "column": ["予約コード", "泊数", "大人人数"]
+    }
+  ],
+  "rename": [
+    {
+      "column": ["予約チャネル", "請求チャネル"],
+      "before": "Agoda",
+      "after": "Agoda"
+    },
+    {
+      "column": ["決済"],
+      "before": "Cash",
+      "after": "現地精算"
+    },
+    {
+      "column": ["決済"],
+      "before": "CreditCard",
+      "after": "カード決済"
+    }
+  ]
+}
