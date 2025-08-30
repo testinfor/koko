@@ -90,6 +90,14 @@
         "予約チャネル",
         "請求チャネル"
       ],
+      "before": "オリオンツアー (Orion Tour)",
+      "after": "Orion Tour"
+    },
+    {
+      "column": [
+        "予約チャネル",
+        "請求チャネル"
+      ],
       "before": "じゃらん (Jalan)",
       "after": "じゃらん"
     },
@@ -243,7 +251,7 @@
         "請求チャネル"
       ],
       "before": "Rakuten",
-      "after": "楽天楽天"
+      "after": "楽天"
     },
     {
       "column": [
