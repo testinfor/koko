@@ -50,8 +50,224 @@
         "予約チャネル",
         "請求チャネル"
       ],
+      "before": "JALパック (JALPAK)",
+      "after": "JALPAK"
+    },
+    {
+      "column": [
+        "予約チャネル",
+        "請求チャネル"
+      ],
+      "before": "JTBグローバルマーケティング＆トラベル (JTB GMT)",
+      "after": "JTB GMT"
+    },
+    {
+      "column": [
+        "予約チャネル",
+        "請求チャネル"
+      ],
+      "before": "TKKトラベル (TKK Travel)",
+      "after": "東武トップ東武トップ"
+    },
+    {
+      "column": [
+        "予約チャネル",
+        "請求チャネル"
+      ],
+      "before": "Webダイレクトシステム (Web Direct System)",
+      "after": "日本旅行WEB日本旅行WEB"
+    },
+    {
+      "column": [
+        "予約チャネル",
+        "請求チャネル"
+      ],
+      "before": "オーマイホテル (Ohmyhotel)",
+      "after": "Ohmyhotel"
+    },
+    {
+      "column": [
+        "予約チャネル",
+        "請求チャネル"
+      ],
+      "before": "じゃらん (Jalan)",
+      "after": "じゃらん"
+    },
+    {
+      "column": [
+        "予約チャネル",
+        "請求チャネル"
+      ],
+      "before": "スカイチケット (skyticket)",
+      "after": "skyticket"
+    },
+    {
+      "column": [
+        "予約チャネル",
+        "請求チャネル"
+      ],
+      "before": "スカイツアーズ (SkyTours)",
+      "after": "SkyTours"
+    },
+    {
+      "column": [
+        "予約チャネル",
+        "請求チャネル"
+      ],
+      "before": "トリプラ (tripla)",
+      "after": "tripla"
+    },
+    {
+      "column": [
+        "予約チャネル",
+        "請求チャネル"
+      ],
+      "before": "ヒカリグローバル (Hikari Global)",
+      "after": "Hikari Global"
+    },
+    {
+      "column": [
+        "予約チャネル",
+        "請求チャネル"
+      ],
+      "before": "リロクラブ (RELO CLUB)",
+      "after": "RELO CLUB"
+    },
+    {
+      "column": [
+        "予約チャネル",
+        "請求チャネル"
+      ],
+      "before": "るるぶトラベル (Rurubu Travel)",
+      "after": "るるぶ"
+    },
+    {
+      "column": [
+        "予約チャネル",
+        "請求チャネル"
+      ],
+      "before": "一休.com (Ikkyu)",
+      "after": "一休"
+    },
+    {
+      "column": [
+        "予約チャネル",
+        "請求チャネル"
+      ],
+      "before": "会社利用・ハウスユース (House Use)",
+      "after": "ハウスユース"
+    },
+    {
+      "column": [
+        "予約チャネル",
+        "請求チャネル"
+      ],
+      "before": "楽天トラベル (Rakuten Travel)",
+      "after": "楽天"
+    },
+    {
+      "column": [
+        "予約チャネル",
+        "請求チャネル"
+      ],
+      "before": "阪急交通社 (Hankyu Travel)",
+      "after": "阪急"
+    },
+    {
+      "column": [
+        "予約チャネル",
+        "請求チャネル"
+      ],
+      "before": "直販売 (Direct sales)",
+      "after": "直受け"
+    },
+    {
+      "column": [
+        "予約チャネル",
+        "請求チャネル"
+      ],
+      "before": "日本旅行 (NTA)",
+      "after": "日本旅行"
+    },
+    {
+      "column": [
+        "予約チャネル",
+        "請求チャネル"
+      ],
       "before": "Agoda",
       "after": "Agoda"
+    },
+    {
+      "column": [
+        "予約チャネル",
+        "請求チャネル"
+      ],
+      "before": "ANA",
+      "after": "ANA"
+    },
+    {
+      "column": [
+        "予約チャネル",
+        "請求チャネル"
+      ],
+      "before": "Booking.com",
+      "after": "Booking"
+    },
+    {
+      "column": [
+        "予約チャネル",
+        "請求チャネル"
+      ],
+      "before": "Expedia",
+      "after": "Expedia"
+    },
+    {
+      "column": [
+        "予約チャネル",
+        "請求チャネル"
+      ],
+      "before": "Hotelbeds",
+      "after": "Hotelbeds"
+    },
+    {
+      "column": [
+        "予約チャネル",
+        "請求チャネル"
+      ],
+      "before": "JTB",
+      "after": "JTB"
+    },
+    {
+      "column": [
+        "予約チャネル",
+        "請求チャネル"
+      ],
+      "before": "Rakuten",
+      "after": "楽天楽天"
+    },
+    {
+      "column": [
+        "予約チャネル",
+        "請求チャネル"
+      ],
+      "before": "relux",
+      "after": "relux"
+    },
+    {
+      "column": [
+        "予約チャネル",
+        "請求チャネル"
+      ],
+      "before": "Trip.com",
+      "after": "Trip.com"
+    },
+    {
+      "column": [
+        "予約チャネル",
+        "請求チャネル"
+      ],
+      "before": "WebBeds",
+      "after": "WebBeds"
     },
     {
       "column": [
@@ -66,6 +282,90 @@
       ],
       "before": "CreditCard",
       "after": "カード決済"
+    },
+    {
+      "column": [
+        "決済"
+      ],
+      "before": "Expedia Collect",
+      "after": "売掛"
+    },
+    {
+      "column": [
+        "決済"
+      ],
+      "before": "Hotel Collect",
+      "after": "売掛"
+    },
+    {
+      "column": [
+        "決済"
+      ],
+      "before": "エージェント精算",
+      "after": "売掛"
+    },
+    {
+      "column": [
+        "決済"
+      ],
+      "before": "カード決済",
+      "after": "カード決済"
+    },
+    {
+      "column": [
+        "決済"
+      ],
+      "before": "ツアー会社",
+      "after": "売掛"
+    },
+    {
+      "column": [
+        "決済"
+      ],
+      "before": "銀行振込",
+      "after": "売掛"
+    },
+    {
+      "column": [
+        "決済"
+      ],
+      "before": "現地決済",
+      "after": "現地精算"
+    },
+    {
+      "column": [
+        "決済"
+      ],
+      "before": "現地決済*",
+      "after": "現地精算"
+    },
+    {
+      "column": [
+        "決済"
+      ],
+      "before": "現地払い",
+      "after": "現地精算"
+    },
+    {
+      "column": [
+        "決済"
+      ],
+      "before": "事後決済",
+      "after": "事後決済"
+    },
+    {
+      "column": [
+        "決済"
+      ],
+      "before": "事前決済",
+      "after": "事前決済"
+    },
+    {
+      "column": [
+        "決済"
+      ],
+      "before": "法人利用",
+      "after": "売掛"
     }
   ]
 }
