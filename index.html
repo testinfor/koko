@@ -1,27 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>KOKO HOTEL Fukuoka Tenjin Guest Guide</title>
 
-    <title>Hotel Information</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@300;400;500;700&family=Jost:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
   </head>
   <body>
+    <div class="koko-page">
+      <header class="koko-header">
+        <a class="koko-brand" href="https://koko-hotels.com/fukuoka_tenjin/" target="_blank" rel="noopener">
+          <img src="images/logo-koko-hotels-black.svg" alt="KOKO HOTELS">
+        </a>
+        <p class="koko-header-note">Hotel Information Mini Page</p>
+      </header>
 
-    <div class="container-fluid">
-      <div class="row">
+      <main class="koko-main container-fluid">
+        <section class="koko-hero row no-gutters">
+          <div class="col-lg-5 hero-copy">
+            <p class="hero-kicker">HERE DISCOVERY BEGINS</p>
+            <h1 class="hero-title">KOKO HOTEL Fukuoka Tenjin Guest Guide</h1>
+            <p class="hero-description">
+              Welcome to KOKO HOTEL Fukuoka Tenjin. Please select your language and check in-room
+              guide information.
+            </p>
+          </div>
+          <div class="col-lg-7 hero-image-wrap">
+            <img id="SMOKING" src="images/JAP-SOMKING.png" class="img-fluid hero-image" alt="Smoking Guide">
+          </div>
+        </section>
 
-        <div class="col-md-12">
-          <img id="SMOKING" src="images/JAP-SOMKING.png" class="img-fluid">
-
-          <div class="tabbable" id="tabs-936997">
-            <ul class="nav nav-tabs">
+        <section class="koko-guide">
+          <div class="tabbable" id="guide-tabs">
+            <ul class="nav nav-tabs guide-lang-tabs">
               <li class="nav-item">
-                <a class="nav-link active show" href="#tab1" data-toggle="tab" id="nav-j">日本語</a>
+                <a class="nav-link active" href="#tab1" data-toggle="tab" id="nav-j">日本語</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#tab2" data-toggle="tab" id="nav-k">한국어</a>
@@ -31,50 +51,49 @@
               </li>
             </ul>
 
-            <div class="tab-content">
-              <!-- ===================== JAPANESE ===================== -->
+            <div class="tab-content guide-content">
               <div class="tab-pane active" id="tab1">
-                <div id="card-j">
+                <div id="card-j" class="guide-accordion">
                   <div class="card">
                     <div class="card-header">
-                      <a class="card-link collapsed" data-toggle="collapse" data-parent="#card-j" href="#card-element-j-w">Wi-Fi接続方法</a>
+                      <a class="card-link collapsed" data-toggle="collapse" data-parent="#card-j" href="#card-element-j-w">Wi-Fiのご案内</a>
                     </div>
                     <div id="card-element-j-w" class="collapse">
                       <div class="card-body">
-                        <img src="images/JAP-WIFI.jpg" class="img-fluid">
+                        <img src="images/JAP-WIFI.jpg" class="img-fluid" alt="Wi-Fi Information">
                       </div>
                     </div>
                   </div>
 
                   <div class="card">
                     <div class="card-header">
-                      <a class="card-link" data-toggle="collapse" data-parent="#card-j" href="#card-element-j-c">連泊清掃ご案内</a>
+                      <a class="card-link collapsed" data-toggle="collapse" data-parent="#card-j" href="#card-element-j-c">客室清掃サービス</a>
                     </div>
                     <div id="card-element-j-c" class="collapse">
                       <div class="card-body">
-                        <img src="images/JAP-CLEANING.jpg" class="img-fluid">
+                        <img src="images/JAP-CLEANING.jpg" class="img-fluid" alt="Cleaning Service">
                       </div>
                     </div>
                   </div>
 
                   <div class="card">
                     <div class="card-header">
-                      <a class="card-link" data-toggle="collapse" data-parent="#card-j" href="#card-element-j-i">ホテル施設案内</a>
+                      <a class="card-link collapsed" data-toggle="collapse" data-parent="#card-j" href="#card-element-j-i">ホテルご案内</a>
                     </div>
                     <div id="card-element-j-i" class="collapse">
                       <div class="card-body">
-                        <img src="images/JAP-INFO.png" class="img-fluid">
+                        <img src="images/JAP-INFO.png" class="img-fluid" alt="Hotel Information">
                       </div>
                     </div>
                   </div>
 
                   <div class="card">
                     <div class="card-header">
-                      <a class="card-link collapsed" data-toggle="collapse" data-parent="#card-j" href="#card-element-j-l">荷物預かりに関して</a>
+                      <a class="card-link collapsed" data-toggle="collapse" data-parent="#card-j" href="#card-element-j-l">荷物のお預かりについて</a>
                     </div>
                     <div id="card-element-j-l" class="collapse">
                       <div class="card-body">
-                        <img src="images/JAP-LUGGAGE.jpg" class="img-fluid">
+                        <img src="images/JAP-LUGGAGE.jpg" class="img-fluid" alt="Luggage Service">
                       </div>
                     </div>
                   </div>
@@ -85,118 +104,102 @@
                     </div>
                     <div id="card-element-j-r" class="collapse">
                       <div class="card-body">
-                        <img src="images/JAP-RATE.jpg" class="img-fluid">
+                        <img src="images/JAP-RATE.jpg" class="img-fluid" alt="Extra Charge">
                       </div>
                     </div>
                   </div>
 
-                  <!-- NEW: Questionnaire (JAPANESE) -->
                   <div class="card">
                     <div class="card-header">
-                      <a class="card-link collapsed" data-toggle="collapse" data-parent="#card-j" href="#card-element-j-q">アンケートのご協力</a>
+                      <a class="card-link collapsed" data-toggle="collapse" data-parent="#card-j" href="#card-element-j-q">アンケートのお願い</a>
                     </div>
                     <div id="card-element-j-q" class="collapse">
                       <div class="card-body">
-                        <a href="https://digital-promotion.jp/review/recommend_store/3529?lang=ja" target="_blank" rel="noopener">
-                          <img src="images/JAP-Questionnaire.jpg" class="img-fluid">
+                        <a href="https://koko-hotels.com/fukuoka_tenjin/" target="_blank" rel="noopener">
+                          <img src="images/JAP-Questionnaire.jpg" class="img-fluid" alt="Questionnaire">
                         </a>
                       </div>
                     </div>
                   </div>
-
-                  <!--
-                  <div class="card">
-                    <div class="card-header">
-                      <a class="card-link collapsed" data-toggle="collapse" data-parent="#card-j" href="#card-element-j-a">空調機のご案内</a>
-                    </div>
-                    <div id="card-element-j-a" class="collapse">
-                      <div class="card-body">
-                        <img src="images/ENG-AIR.jpg" class="img-fluid">
-                      </div>
-                    </div>
-                  </div>
-                  -->
                 </div>
               </div>
 
-              <!-- ===================== KOREAN ===================== -->
               <div class="tab-pane" id="tab2">
-                <div id="card-k">
+                <div id="card-k" class="guide-accordion">
                   <div class="card">
                     <div class="card-header">
-                      <a class="card-link collapsed" data-toggle="collapse" data-parent="#card-k" href="#card-element-k-w">Wi-Fi 이용방법</a>
+                      <a class="card-link collapsed" data-toggle="collapse" data-parent="#card-k" href="#card-element-k-w">Wi-Fi 안내</a>
                     </div>
                     <div id="card-element-k-w" class="collapse">
                       <div class="card-body">
-                        <img src="images/KOR-WIFI.jpg" class="img-fluid">
+                        <img src="images/KOR-WIFI.jpg" class="img-fluid" alt="Wi-Fi Information">
                       </div>
                     </div>
                   </div>
 
                   <div class="card">
                     <div class="card-header">
-                      <a class="card-link" data-toggle="collapse" data-parent="#card-k" href="#card-element-k-c">연박 중 청소 방법</a>
+                      <a class="card-link collapsed" data-toggle="collapse" data-parent="#card-k" href="#card-element-k-c">객실 청소 서비스</a>
                     </div>
                     <div id="card-element-k-c" class="collapse">
                       <div class="card-body">
-                        <img src="images/KOR-CLEANING.jpg" class="img-fluid">
+                        <img src="images/KOR-CLEANING.jpg" class="img-fluid" alt="Cleaning Service">
                       </div>
                     </div>
                   </div>
 
                   <div class="card">
                     <div class="card-header">
-                      <a class="card-link" data-toggle="collapse" data-parent="#card-k" href="#card-element-k-i">호텔 내부 시설 설명</a>
+                      <a class="card-link collapsed" data-toggle="collapse" data-parent="#card-k" href="#card-element-k-i">호텔 안내</a>
                     </div>
                     <div id="card-element-k-i" class="collapse">
                       <div class="card-body">
-                        <img src="images/KOR-INFO.png" class="img-fluid">
+                        <img src="images/KOR-INFO.png" class="img-fluid" alt="Hotel Information">
                       </div>
                     </div>
                   </div>
 
                   <div class="card">
                     <div class="card-header">
-                      <a class="card-link collapsed" data-toggle="collapse" data-parent="#card-k" href="#card-element-k-a">에어컨 조작 방법</a>
+                      <a class="card-link collapsed" data-toggle="collapse" data-parent="#card-k" href="#card-element-k-a">에어컨 안내</a>
                     </div>
                     <div id="card-element-k-a" class="collapse">
                       <div class="card-body">
-                        <img src="images/KOR-AIR.jpg" class="img-fluid">
+                        <img src="images/KOR-AIR.jpg" class="img-fluid" alt="Air Conditioner Information">
                       </div>
                     </div>
                   </div>
 
                   <div class="card">
                     <div class="card-header">
-                      <a class="card-link collapsed" data-toggle="collapse" data-parent="#card-k" href="#card-element-k-l">짐 보관 서비스에 관해</a>
+                      <a class="card-link collapsed" data-toggle="collapse" data-parent="#card-k" href="#card-element-k-l">수하물 보관 서비스</a>
                     </div>
                     <div id="card-element-k-l" class="collapse">
                       <div class="card-body">
-                        <img src="images/KOR-LUGGAGE.jpg" class="img-fluid">
+                        <img src="images/KOR-LUGGAGE.jpg" class="img-fluid" alt="Luggage Service">
                       </div>
                     </div>
                   </div>
 
                   <div class="card">
                     <div class="card-header">
-                      <a class="card-link collapsed" data-toggle="collapse" data-parent="#card-k" href="#card-element-k-r">추가요금 발생에 대해</a>
+                      <a class="card-link collapsed" data-toggle="collapse" data-parent="#card-k" href="#card-element-k-r">추가 요금 안내</a>
                     </div>
                     <div id="card-element-k-r" class="collapse">
                       <div class="card-body">
-                        <img src="images/KOR-RATE.jpg" class="img-fluid">
+                        <img src="images/KOR-RATE.jpg" class="img-fluid" alt="Extra Charge">
                       </div>
                     </div>
                   </div>
 
-                  <!-- NEW: Questionnaire (KOREAN) -->
                   <div class="card">
                     <div class="card-header">
-                      <a class="card-link collapsed" data-toggle="collapse" data-parent="#card-k" href="#card-element-k-q">앙케이트 조사</a>
+                      <a class="card-link collapsed" data-toggle="collapse" data-parent="#card-k" href="#card-element-k-q">설문조사</a>
                     </div>
                     <div id="card-element-k-q" class="collapse">
                       <div class="card-body">
-                        <a href="https://digital-promotion.jp/review/recommend_store/3529?lang=ko" target="_blank" rel="noopener">
-                          <img src="images/KOR-Questionnaire.jpg" class="img-fluid">
+                        <a href="https://koko-hotels.com/fukuoka_tenjin/" target="_blank" rel="noopener">
+                          <img src="images/KOR-Questionnaire.jpg" class="img-fluid" alt="Questionnaire">
                         </a>
                       </div>
                     </div>
@@ -204,104 +207,100 @@
                 </div>
               </div>
 
-              <!-- ===================== ENGLISH ===================== -->
               <div class="tab-pane" id="tab3">
-                <div id="card-e">
+                <div id="card-e" class="guide-accordion">
                   <div class="card">
                     <div class="card-header">
-                      <a class="card-link collapsed" data-toggle="collapse" data-parent="#card-e" href="#card-element-e-w">Wi-Fi information</a>
+                      <a class="card-link collapsed" data-toggle="collapse" data-parent="#card-e" href="#card-element-e-w">Wi-Fi Information</a>
                     </div>
                     <div id="card-element-e-w" class="collapse">
                       <div class="card-body">
-                        <img src="images/ENG-WIFI.jpg" class="img-fluid">
+                        <img src="images/ENG-WIFI.jpg" class="img-fluid" alt="Wi-Fi Information">
                       </div>
                     </div>
                   </div>
 
                   <div class="card">
                     <div class="card-header">
-                      <a class="card-link" data-toggle="collapse" data-parent="#card-e" href="#card-element-e-c">Room cleaning service</a>
+                      <a class="card-link collapsed" data-toggle="collapse" data-parent="#card-e" href="#card-element-e-c">Room Cleaning Service</a>
                     </div>
                     <div id="card-element-e-c" class="collapse">
                       <div class="card-body">
-                        <img src="images/ENG-CLEANING.jpg" class="img-fluid">
+                        <img src="images/ENG-CLEANING.jpg" class="img-fluid" alt="Cleaning Service">
                       </div>
                     </div>
                   </div>
 
                   <div class="card">
                     <div class="card-header">
-                      <a class="card-link" data-toggle="collapse" data-parent="#card-e" href="#card-element-e-i">Hotel information</a>
+                      <a class="card-link collapsed" data-toggle="collapse" data-parent="#card-e" href="#card-element-e-i">Hotel Information</a>
                     </div>
                     <div id="card-element-e-i" class="collapse">
                       <div class="card-body">
-                        <img src="images/ENG-INFO.png" class="img-fluid">
+                        <img src="images/ENG-INFO.png" class="img-fluid" alt="Hotel Information">
                       </div>
                     </div>
                   </div>
 
                   <div class="card">
                     <div class="card-header">
-                      <a class="card-link collapsed" data-toggle="collapse" data-parent="#card-e" href="#card-element-e-a">Air conditioner information</a>
+                      <a class="card-link collapsed" data-toggle="collapse" data-parent="#card-e" href="#card-element-e-a">Air Conditioner Information</a>
                     </div>
                     <div id="card-element-e-a" class="collapse">
                       <div class="card-body">
-                        <img src="images/ENG-AIR.jpg" class="img-fluid">
+                        <img src="images/ENG-AIR.jpg" class="img-fluid" alt="Air Conditioner Information">
                       </div>
                     </div>
                   </div>
 
                   <div class="card">
                     <div class="card-header">
-                      <a class="card-link collapsed" data-toggle="collapse" data-parent="#card-e" href="#card-element-e-l">Luggage storage service</a>
+                      <a class="card-link collapsed" data-toggle="collapse" data-parent="#card-e" href="#card-element-e-l">Luggage Storage Service</a>
                     </div>
                     <div id="card-element-e-l" class="collapse">
                       <div class="card-body">
-                        <img src="images/ENG-LUGGAGE.jpg" class="img-fluid">
+                        <img src="images/ENG-LUGGAGE.jpg" class="img-fluid" alt="Luggage Storage Service">
                       </div>
                     </div>
                   </div>
 
                   <div class="card">
                     <div class="card-header">
-                      <a class="card-link collapsed" data-toggle="collapse" data-parent="#card-e" href="#card-element-e-r">About extra charge</a>
+                      <a class="card-link collapsed" data-toggle="collapse" data-parent="#card-e" href="#card-element-e-r">About Extra Charge</a>
                     </div>
                     <div id="card-element-e-r" class="collapse">
                       <div class="card-body">
-                        <img src="images/ENG-RATE.jpg" class="img-fluid">
+                        <img src="images/ENG-RATE.jpg" class="img-fluid" alt="Extra Charge">
                       </div>
                     </div>
                   </div>
 
-                  <!-- NEW: Questionnaire (ENGLISH) -->
                   <div class="card">
                     <div class="card-header">
                       <a class="card-link collapsed" data-toggle="collapse" data-parent="#card-e" href="#card-element-e-q">Questionnaire</a>
                     </div>
                     <div id="card-element-e-q" class="collapse">
                       <div class="card-body">
-                        <a href="https://digital-promotion.jp/review/recommend_store/3529?lang=en" target="_blank" rel="noopener">
-                          <img src="images/ENG-Questionnaire.jpg" class="img-fluid">
+                        <a href="https://koko-hotels.com/fukuoka_tenjin/" target="_blank" rel="noopener">
+                          <img src="images/ENG-Questionnaire.jpg" class="img-fluid" alt="Questionnaire">
                         </a>
                       </div>
                     </div>
                   </div>
-
                 </div>
               </div>
-
             </div>
           </div>
+        </section>
+      </main>
 
-        </div>
-      </div>
-
-      <div>&nbsp</div>
+      <footer class="koko-footer">
+        <a href="https://koko-hotels.com/fukuoka_tenjin/" target="_blank" rel="noopener">koko-hotels.com/fukuoka_tenjin/</a>
+      </footer>
     </div>
 
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/scripts.js"></script>
-
   </body>
 </html>
