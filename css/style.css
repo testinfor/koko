@@ -1,24 +1,329 @@
-.card-link {
-    font-size: 3vw;
+:root {
+  --koko-ink: #232323;
+  --koko-charcoal: #373534;
+  --koko-gold: #c6a154;
+  --koko-brown: #806868;
+  --koko-border: #dcdddf;
+  --koko-paper: #ffffff;
+  --koko-mist: #f7f9fc;
+  --koko-stone: #edede5;
 }
 
-@media (max-width: 768px) {
-    .card-link {
-        font-size: 6vw;
-    }
+html {
+  font-size: 62.5%;
 }
 
-.nav-link {
-    font-size: 3vw;
+body {
+  margin: 0;
+  color: var(--koko-ink);
+  background:
+    radial-gradient(circle at 8% 5%, rgba(198, 161, 84, 0.2), transparent 42%),
+    radial-gradient(circle at 92% 97%, rgba(128, 104, 104, 0.22), transparent 40%),
+    linear-gradient(180deg, #fbfbfb 0%, var(--koko-mist) 100%);
+  font-family: "IBM Plex Sans JP", "Noto Sans KR", sans-serif;
+  line-height: 1.6;
 }
 
-@media (max-width: 768px) {
-    .nav-link {
-        font-size: 5vw;
-    }
+.koko-page {
+  min-height: 100vh;
+  padding: 3.2rem 2rem 2rem;
 }
 
-.row {
-    padding-top: 20px;
-    padding-bottom: calc(10vh * 3);
+.koko-header {
+  max-width: 112rem;
+  margin: 0 auto 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.6rem;
+}
+
+.koko-brand {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  line-height: 1;
+}
+
+.koko-brand img {
+  width: auto;
+  height: clamp(2.8rem, 3.4vw, 4.6rem);
+}
+
+.koko-header-note {
+  margin: 0;
+  color: #737373;
+  font-family: "Jost", sans-serif;
+  font-size: 1.45rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.koko-main {
+  max-width: 112rem;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.koko-hero {
+  overflow: hidden;
+  border: 0.1rem solid var(--koko-border);
+  border-radius: 1rem;
+  background: var(--koko-paper);
+  box-shadow: 0 1.2rem 2.8rem rgba(35, 35, 35, 0.09);
+}
+
+.hero-copy {
+  background: linear-gradient(140deg, #ffffff 0%, #f8f7f2 100%);
+  padding: 3.6rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.2rem;
+}
+
+.hero-kicker {
+  margin: 0;
+  color: var(--koko-gold);
+  font-family: "Jost", sans-serif;
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: 0.17em;
+}
+
+.hero-title {
+  margin: 0;
+  color: var(--koko-charcoal);
+  font-size: clamp(2.8rem, 3.4vw, 4rem);
+  line-height: 1.25;
+  font-weight: 500;
+}
+
+.hero-description {
+  max-width: 38rem;
+  margin: 0;
+  color: #5b5b5b;
+  font-size: 1.55rem;
+  font-weight: 400;
+}
+
+.hero-image-wrap {
+  background: var(--koko-stone);
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.hero-image {
+  width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+}
+
+.koko-guide {
+  margin-top: 2rem;
+}
+
+.guide-lang-tabs {
+  border-bottom: 0;
+  gap: 0.8rem;
+}
+
+.guide-lang-tabs .nav-item {
+  margin-bottom: 0;
+}
+
+.guide-lang-tabs .nav-link {
+  border: 0.1rem solid var(--koko-border);
+  border-radius: 999px;
+  background: var(--koko-paper);
+  color: var(--koko-charcoal);
+  font-size: 1.7rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  line-height: 1.2;
+  padding: 1rem 2rem;
+  transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.guide-lang-tabs .nav-link:hover {
+  color: var(--koko-gold);
+  border-color: var(--koko-gold);
+}
+
+.guide-lang-tabs .nav-link.active {
+  color: #fff;
+  border-color: var(--koko-charcoal);
+  background: var(--koko-charcoal);
+}
+
+.guide-content {
+  margin-top: 1.4rem;
+}
+
+.guide-accordion .card {
+  margin-bottom: 1rem;
+  border: 0.1rem solid var(--koko-border);
+  border-radius: 0.8rem;
+  overflow: hidden;
+  background: var(--koko-paper);
+  box-shadow: 0 0.7rem 2rem rgba(35, 35, 35, 0.05);
+}
+
+.guide-accordion .card-header {
+  padding: 0;
+  border-bottom: 0;
+  background: transparent;
+}
+
+.guide-accordion .card-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.2rem;
+  width: 100%;
+  margin: 0;
+  padding: 1.8rem 2rem;
+  color: var(--koko-ink);
+  font-size: 1.85rem;
+  font-weight: 500;
+  line-height: 1.35;
+  text-decoration: none;
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.guide-accordion .card-link::after {
+  content: "";
+  width: 0.8rem;
+  height: 0.8rem;
+  flex-shrink: 0;
+  border-top: 0.2rem solid currentColor;
+  border-right: 0.2rem solid currentColor;
+  transform: rotate(135deg);
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+
+.guide-accordion .card-link:not(.collapsed) {
+  color: var(--koko-gold);
+  background: rgba(198, 161, 84, 0.08);
+}
+
+.guide-accordion .card-link:not(.collapsed)::after {
+  transform: rotate(-45deg) translate(-0.1rem, 0.1rem);
+}
+
+.guide-accordion .card-link:hover {
+  color: var(--koko-brown);
+}
+
+.guide-accordion .card-body {
+  padding: 0;
+  border-top: 0.1rem solid var(--koko-border);
+  background: #fff;
+}
+
+.guide-accordion .card-body img {
+  display: block;
+  width: 100%;
+}
+
+.guide-accordion .card-body a {
+  display: block;
+}
+
+.koko-footer {
+  max-width: 112rem;
+  margin: 2.4rem auto 0;
+  text-align: center;
+}
+
+.koko-footer a {
+  color: #737373;
+  font-size: 1.3rem;
+  text-decoration: none;
+  border-bottom: 0.1rem solid rgba(128, 104, 104, 0.65);
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.koko-footer a:hover {
+  color: var(--koko-brown);
+  border-color: var(--koko-brown);
+}
+
+@media (max-width: 991.98px) {
+  .hero-copy {
+    padding: 2.8rem 2.2rem;
+  }
+
+  .guide-lang-tabs .nav-link {
+    font-size: 1.55rem;
+    padding: 0.9rem 1.6rem;
+  }
+
+  .guide-accordion .card-link {
+    font-size: 1.65rem;
+    padding: 1.55rem 1.6rem;
+  }
+}
+
+@media (max-width: 767.98px) {
+  html {
+    font-size: 56.25%;
+  }
+
+  .koko-page {
+    padding: 1.6rem 1.2rem 2rem;
+  }
+
+  .koko-header {
+    margin-bottom: 1.4rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .hero-copy {
+    padding: 2.2rem 1.6rem;
+    gap: 0.9rem;
+  }
+
+  .hero-title {
+    font-size: 2.7rem;
+  }
+
+  .hero-description {
+    font-size: 1.45rem;
+  }
+
+  .guide-lang-tabs {
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+
+  .guide-lang-tabs .nav-item {
+    flex: 1 1 calc(33.333% - 0.4rem);
+  }
+
+  .guide-lang-tabs .nav-link {
+    text-align: center;
+    white-space: nowrap;
+    font-size: 1.45rem;
+    padding: 0.8rem 0.4rem;
+  }
+
+  .guide-content {
+    margin-top: 1.2rem;
+  }
+
+  .guide-accordion .card-link {
+    font-size: 1.5rem;
+    padding: 1.35rem 1.2rem;
+    gap: 0.8rem;
+  }
+
+  .guide-accordion .card-link::after {
+    width: 0.7rem;
+    height: 0.7rem;
+  }
 }
