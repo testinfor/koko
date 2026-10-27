@@ -1,8 +1,8 @@
 $(function () {
   var smokingImagesByTab = {
-    tab1: "images/JAP-SOMKING.png",
-    tab2: "images/KOR-SOMKING.png",
-    tab3: "images/ENG-SOMKING.png"
+    tab1: "images/JAP-SOMKING.jpg",
+    tab2: "images/KOR-SOMKING.jpg",
+    tab3: "images/ENG-SOMKING.jpg"
   };
 
   function getPreferredTabId() {
